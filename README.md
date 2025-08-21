@@ -1,3 +1,61 @@
+## AletheiaDocs
+
+Filipino professional document center with tools, forum, and chat. Built with Node.js, Express, PostgreSQL, and React (Vite). Railway-ready deployment.
+
+### Features
+- Document Center: upload, categorize, search, and one-click PDF download
+- Tools: PH map (Leaflet + OSM), Weather via OpenWeather (server proxy)
+- User Interaction: Socket.io chat widget, basic forum (posts and replies)
+- Admin Panel: announcements, document management, basic chat moderation
+- Responsive, Filipino-inspired UI
+
+### Monorepo Structure
+- `server/` Express API + Socket.io + PostgreSQL
+- `client/` Vite React SPA
+
+### Environment Variables
+Set these in Railway project variables:
+- `PORT` = 8080 (Railway provides automatically)
+- `DATABASE_URL` = your PostgreSQL connection string
+- `JWT_SECRET` = strong random string
+- `OPENWEATHER_API_KEY` = your OpenWeather key
+
+For your case:
+- `DATABASE_URL` = postgresql://postgres:gxktwnRqVANotrTJuirVJWemzHMAMLqh@centerbeam.proxy.rlwy.net:56197/railway
+- `OPENWEATHER_API_KEY` = e0bb86759c765d450532d992831a630d
+
+### Local Development
+```bash
+npm install
+npm run dev
+```
+Client at http://localhost:5173, API at http://localhost:8080
+
+### Deploy to Railway
+1. Create a new Railway project and attach a PostgreSQL database (or set `DATABASE_URL`).
+2. Add variables: `DATABASE_URL`, `JWT_SECRET`, `OPENWEATHER_API_KEY`.
+3. Deploy from GitHub repo or upload.
+4. Railway will run `npm install` (root), trigger `postinstall` to build client and install server, then `npm start`.
+
+### API Overview
+- `POST /api/auth/register` { email, password, displayName }
+- `POST /api/auth/login` { email, password }
+- `GET /api/documents?q=&category=`
+- `POST /api/documents` (multipart: file, title, category) [auth]
+- `GET /api/documents/:id/download`
+- `GET /api/forum/posts`
+- `GET /api/forum/posts/:id`
+- `POST /api/forum/posts` { title, content } [auth]
+- `POST /api/forum/posts/:id/replies` { content } [auth]
+- `GET /api/tools/weather?q=Manila,PH`
+- `GET/POST/DELETE /api/admin/announcements` [admin]
+- `GET/DELETE /api/admin/chat` [admin]
+
+### Notes
+- Uses `pgcrypto` for UUID `gen_random_uuid()`; enabled at startup.
+- File uploads stored at `server/uploads/`.
+- Client served by Express in production.
+
 # AgroPH - Philippine Agricultural Hub
 
 ![AgroPH Logo](./public/assets/logo.svg)

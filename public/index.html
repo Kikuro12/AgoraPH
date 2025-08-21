@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroPH - Philippine Agricultural Hub</title>
+    <meta name="description" content="Your one-stop hub for Philippine agricultural resources, documents, weather, and community discussions.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/filipino-theme.css">
+    <link rel="stylesheet" href="/css/components.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="/assets/logo.svg" alt="AgroPH" class="nav-logo">
+                <span class="nav-title">AgroPH</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link active" data-section="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#documents" class="nav-link" data-section="documents">
+                    <i class="fas fa-folder-open"></i>
+                    <span>Documents</span>
+                </a>
+                <a href="#tools" class="nav-link" data-section="tools">
+                    <i class="fas fa-tools"></i>
+                    <span>Tools</span>
+                </a>
+                <a href="#forum" class="nav-link" data-section="forum">
+                    <i class="fas fa-comments"></i>
+                    <span>Forum</span>
+                </a>
+                <a href="#about" class="nav-link" data-section="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About</span>
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <div class="auth-buttons" id="auth-buttons">
+                    <button class="btn btn-outline" id="login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
+                    </button>
+                    <button class="btn btn-primary" id="register-btn">
+                        <i class="fas fa-user-plus"></i>
+                        Register
+                    </button>
+                </div>
+                
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <div class="user-avatar" id="user-avatar">
+                        <img src="/assets/default-avatar.svg" alt="User" id="avatar-img">
+                        <span id="username-display">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu">
+                        <a href="#" id="profile-link">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="#" id="admin-link" style="display: none;">
+                            <i class="fas fa-cog"></i>
+                            Admin Panel
+                        </a>
+                        <hr>
+                        <a href="#" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="nav-toggle" id="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-pattern"></div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <h1 class="hero-title">
+                                Welcome to <span class="text-primary">AgroPH</span>
+                            </h1>
+                            <p class="hero-subtitle">
+                                Your comprehensive hub for Philippine agricultural resources, 
+                                documentation, weather updates, and community discussions.
+                            </p>
+                            <div class="hero-actions">
+                                <button class="btn btn-primary btn-lg" data-section="documents">
+                                    <i class="fas fa-folder-open"></i>
+                                    Browse Documents
+                                </button>
+                                <button class="btn btn-outline btn-lg" data-section="tools">
+                                    <i class="fas fa-tools"></i>
+                                    Explore Tools
+                                </button>
+                            </div>
+                        </div>
+                        <div class="hero-visual">
+                            <div class="hero-card">
+                                <i class="fas fa-seedling hero-icon"></i>
+                                <h3>Agricultural Excellence</h3>
+                                <p>Empowering Filipino farmers with modern tools and resources</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="features-section">
+                <div class="container">
+                    <h2 class="section-title">Explore Our Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-card" data-section="documents">
+                            <div class="feature-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <h3>Document Center</h3>
+                            <p>Access official forms, permits, and agricultural documents with easy search and download.</p>
+                            <div class="feature-stats">
+                                <span id="total-documents">Loading...</span> documents available
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card" data-section="tools">
+                            <div class="feature-icon">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <h3>Maps & Weather</h3>
+                            <p>Interactive Philippine map and real-time weather updates for agricultural planning.</p>
+                            <div class="feature-stats">
+                                <span id="weather-locations">20+</span> locations covered
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card" data-section="forum">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3>Community Forum</h3>
+                            <p>Connect with fellow farmers, share experiences, and get expert advice.</p>
+                            <div class="feature-stats">
+                                <span id="forum-posts">Loading...</span> active discussions
+                            </div>
+                        </div>
+                        
+                        <div class="feature-card" onclick="toggleChat()">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3>Live Support</h3>
+                            <p>Get instant help through our real-time chat support system.</p>
+                            <div class="feature-stats">
+                                <span class="text-success">Online now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements Section -->
+            <div class="announcements-section" id="announcements-section">
+                <div class="container">
+                    <h2 class="section-title">Latest Announcements</h2>
+                    <div class="announcements-grid" id="announcements-grid">
+                        <!-- Announcements will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documents Section -->
+        <section id="documents" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">Document Center</h1>
+                    <p class="section-subtitle">Access official agricultural forms, permits, and resources</p>
+                </div>
+
+                <!-- Search and Filters -->
+                <div class="search-filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="document-search" placeholder="Search documents, forms, or keywords...">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="category-filter" class="filter-select">
+                            <option value="">All Categories</option>
+                        </select>
+                        <button class="btn btn-outline" id="featured-filter">
+                            <i class="fas fa-star"></i>
+                            Featured Only
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Document Categories -->
+                <div class="categories-grid" id="categories-grid">
+                    <!-- Categories will be loaded here -->
+                </div>
+
+                <!-- Documents Grid -->
+                <div class="documents-grid" id="documents-grid">
+                    <!-- Documents will be loaded here -->
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="documents-pagination">
+                    <!-- Pagination will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Section -->
+        <section id="tools" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">Agricultural Tools</h1>
+                    <p class="section-subtitle">Interactive maps and weather information for better farming decisions</p>
+                </div>
+
+                <div class="tools-grid">
+                    <!-- Philippines Map -->
+                    <div class="tool-card map-card">
+                        <div class="tool-header">
+                            <h3>
+                                <i class="fas fa-map-marked-alt"></i>
+                                Philippines Map
+                            </h3>
+                            <p>Explore agricultural regions across the Philippines</p>
+                        </div>
+                        <div class="map-container">
+                            <div id="philippines-map"></div>
+                        </div>
+                    </div>
+
+                    <!-- Weather Widget -->
+                    <div class="tool-card weather-card">
+                        <div class="tool-header">
+                            <h3>
+                                <i class="fas fa-cloud-sun"></i>
+                                Weather Information
+                            </h3>
+                            <div class="weather-controls">
+                                <select id="weather-city" class="weather-select">
+                                    <option value="">Select a city...</option>
+                                </select>
+                                <button class="btn btn-primary" id="get-weather">
+                                    <i class="fas fa-sync"></i>
+                                    Update
+                                </button>
+                            </div>
+                        </div>
+                        <div class="weather-display" id="weather-display">
+                            <div class="weather-placeholder">
+                                <i class="fas fa-cloud"></i>
+                                <p>Select a city to view weather information</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Forum Section -->
+        <section id="forum" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h1 class="section-title">Community Forum</h1>
+                    <p class="section-subtitle">Connect, share, and learn from the agricultural community</p>
+                    <button class="btn btn-primary" id="new-post-btn" style="display: none;">
+                        <i class="fas fa-plus"></i>
+                        New Post
+                    </button>
+                </div>
+
+                <!-- Forum Categories -->
+                <div class="forum-categories" id="forum-categories">
+                    <!-- Categories will be loaded here -->
+                </div>
+
+                <!-- Forum Posts -->
+                <div class="forum-filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="forum-search" placeholder="Search posts...">
+                    </div>
+                    <select id="forum-category-filter" class="filter-select">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+
+                <div class="forum-posts" id="forum-posts">
+                    <!-- Posts will be loaded here -->
+                </div>
+
+                <!-- Forum Pagination -->
+                <div class="pagination" id="forum-pagination">
+                    <!-- Pagination will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h1 class="section-title">About AgroPH</h1>
+                        <p class="lead">
+                            AgroPH is a comprehensive digital platform designed to empower Filipino farmers 
+                            and agricultural professionals with modern tools, resources, and community support.
+                        </p>
+                        
+                        <div class="about-features">
+                            <div class="about-feature">
+                                <i class="fas fa-seedling"></i>
+                                <div>
+                                    <h3>Agricultural Excellence</h3>
+                                    <p>Supporting sustainable farming practices across the Philippines</p>
+                                </div>
+                            </div>
+                            <div class="about-feature">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <h3>Community Driven</h3>
+                                    <p>Building connections between farmers, experts, and agricultural enthusiasts</p>
+                                </div>
+                            </div>
+                            <div class="about-feature">
+                                <i class="fas fa-chart-line"></i>
+                                <div>
+                                    <h3>Data-Driven Insights</h3>
+                                    <p>Providing weather data and tools for informed agricultural decisions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="about-visual">
+                        <div class="philippine-pattern">
+                            <div class="pattern-element"></div>
+                            <div class="pattern-element"></div>
+                            <div class="pattern-element"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-header" onclick="toggleChat()">
+            <div class="chat-title">
+                <i class="fas fa-comments"></i>
+                <span>Live Support</span>
+            </div>
+            <div class="chat-status">
+                <span class="status-indicator online"></span>
+                <span id="chat-toggle-icon" class="fas fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="chat-messages" id="chat-messages">
+                <div class="system-message">
+                    <i class="fas fa-robot"></i>
+                    <p>Welcome to AgroPH support! How can we help you today?</p>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <div class="chat-login-prompt" id="chat-login-prompt">
+                    <p>Please login to join the chat</p>
+                    <button class="btn btn-primary btn-sm" onclick="showAuthModal('login')">Login</button>
+                </div>
+                <div class="chat-input" id="chat-input" style="display: none;">
+                    <input type="text" id="message-input" placeholder="Type your message..." maxlength="500">
+                    <button id="send-message" class="btn-send">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Auth Modal -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="auth-modal-title">Login</h2>
+                <button class="modal-close" onclick="closeModal('auth-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-username">Username or Email</label>
+                        <input type="text" id="login-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="auth-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="register-username">Username</label>
+                        <input type="text" id="register-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-fullname">Full Name</label>
+                        <input type="text" id="register-fullname">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-location">Location</label>
+                        <input type="text" id="register-location" placeholder="e.g., Cebu City">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        <i class="fas fa-user-plus"></i>
+                        Register
+                    </button>
+                </form>
+
+                <div class="auth-switch">
+                    <p id="auth-switch-text">Don't have an account?</p>
+                    <button id="auth-switch-btn" class="btn-link">Register here</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div class="modal-overlay" id="admin-modal">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h2>Admin Panel</h2>
+                <button class="modal-close" onclick="closeModal('admin-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+                    <button class="tab-btn" data-tab="documents">Documents</button>
+                    <button class="tab-btn" data-tab="users">Users</button>
+                    <button class="tab-btn" data-tab="forum">Forum</button>
+                    <button class="tab-btn" data-tab="announcements">Announcements</button>
+                </div>
+                <div class="admin-content" id="admin-content">
+                    <!-- Admin content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container">
+        <!-- Toasts will be added here -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="/assets/logo.svg" alt="AgroPH" class="footer-logo">
+                        <h3>AgroPH</h3>
+                    </div>
+                    <p>Empowering Philippine agriculture through technology and community.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#documents">Documents</a></li>
+                        <li><a href="#tools">Tools</a></li>
+                        <li><a href="#forum">Forum</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> support@agroph.com</li>
+                        <li><i class="fas fa-phone"></i> +63 2 1234 5678</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Manila, Philippines</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 AgroPH. All rights reserved.</p>
+                <p class="footer-credit">Created by <strong>Marwen Deiparine</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.4/socket.io.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/documents.js"></script>
+    <script src="/js/forum.js"></script>
+    <script src="/js/tools.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/chat.js"></script>
+</body>
+</html>
